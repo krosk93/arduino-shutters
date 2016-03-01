@@ -54,6 +54,7 @@ public:
   bool reached();
   byte currentLevel();
   void eraseSavedState();
+  bool getDirection();
 };
 
 #endif

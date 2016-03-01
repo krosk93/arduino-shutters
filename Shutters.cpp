@@ -127,6 +127,10 @@ byte Shutters::currentLevel() {
   return this->current_level_;
 }
 
+bool Shutters::getDirection() {
+  return this->direction_;
+}
+
 bool Shutters::reached() {
   bool reached = this->reached_;
   this->reached_ = false;
