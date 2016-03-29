@@ -29,7 +29,7 @@ The EEPROM won't die until at least `100 000/365/4 ~= 68.5` years — this shoul
 
 ## Installation
 
-1. Download the [latest version](https://github.com/marvinroger/arduino-shutters/archive/master.zip)
+1. Download the [latest version](https://github.com/krosk93/arduino-shutters/archive/master.zip)
 2. Load the `.zip` with **Sketch → Include Library → Add .ZIP Library**
 3. Be sure that the EEPROM byte you want to use (0 by default) is clear.
 You can load the EraseEEPROM example sketch to achieve this
@@ -38,9 +38,10 @@ You can load the EraseEEPROM example sketch to achieve this
 
 See examples folder for examples.
 
-#### Shutters (float `time_full_course`, void (\*`upCallback`)(void), void (\*`downCallback`)(void), void (\*`haltCallback`)(void), byte `eeprom_offset` = 0)
+#### Shutters (float `time_full_course_up`, float `time_full_course_down`, void (\*`upCallback`)(void), void (\*`downCallback`)(void), void (\*`haltCallback`)(void), byte `eeprom_offset` = 0)
 
-* **`time_full_course`**: Time in seconds to do a full shutters course
+* **`time_full_course_up`**: Time in seconds to do a full shutters open (up) course
+* **`time_full_course_down`**: Time in seconds to do a full shutters close (down) course
 * **`upCallback`**: Function to execute for the shutters to go up
 * **`downCallback`**: Function to execute for the shutters to go down
 * **`haltCallback`**: Function to execute for the shutters to halt
@@ -87,3 +88,6 @@ Return whether or not the shutters just reached the latest requested level. For 
 Erase data stored in EEPROM, for example for a reset routine.
 Once erased, don't forget to restart/reset the Arduino, otherwise EEPROM might
 be rewritten if `requestLevel` is called for example.
+
+#### bool .getDirection ()
+Returns true if shutters are moving up, false if they are moving down.
