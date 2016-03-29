@@ -13,7 +13,7 @@ void Shutters::log(String text) {
   return log((const char*)text.c_str());
 }
 
-Shutters::Shutters(float delay_total, void (*upCallback)(void), void (*downCallback)(void), void (*haltCallback)(void), byte eeprom_offset) {
+Shutters::Shutters(float delay_total_up, float delay_total_down, void (*upCallback)(void), void (*downCallback)(void), void (*haltCallback)(void), byte eeprom_offset) {
   this->moving_ = false;
   this->reached_ = false;
   this->request_level_ = REQUEST_NONE;
@@ -22,8 +22,10 @@ Shutters::Shutters(float delay_total, void (*upCallback)(void), void (*downCallb
 
   this->eeprom_position_ = EEPROM_POSITION + eeprom_offset;
 
-  this->delay_total_ = delay_total;
-  this->delay_one_level_ = delay_total / LEVELS;
+  this->delay_total_up_ = delay_total_up;
+  this->delay_total_down_ = delay_total_down;
+  this->delay_one_level_up_ = delay_total_up / LEVELS;
+  this->delay_one_level_down_ = delay_total_down / LEVELS;
   this->upCallback_ = upCallback;
   this->downCallback_ = downCallback;
   this->haltCallback_ = haltCallback;
@@ -70,7 +72,7 @@ bool Shutters::begin() {
   if(!savedIsLastLevelKnown()) {
     log("Current level unsure, calibrating...");
     up();
-    delay((this->delay_total_ + this->delay_one_level_ * CALIBRATION_LEVELS) * 1000);
+    delay((this->delay_total_up_ + this->delay_one_level_up_ * CALIBRATION_LEVELS) * 1000);
     halt();
     saveCurrentLevelAndKnown(0);
     this->current_level_ = 0;
@@ -161,7 +163,7 @@ void Shutters::loop() {
   if (this->moving_) {
     unsigned long now = millis();
 
-    if (now - this->time_last_level_ >= this->delay_one_level_ * 1000) {
+    if ((this->direction_ == DIRECTION_DOWN && now - this->time_last_level_ >= this->delay_one_level_down_ * 1000) || (this->direction_ == DIRECTION_UP && now - this->time_last_level_ >= this->delay_one_level_up_ * 1000)) {
       if (this->calibration_ == CALIBRATION_NONE) {
         if (this->direction_ == DIRECTION_DOWN) {
           this->current_level_ += 1;

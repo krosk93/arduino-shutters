@@ -19,7 +19,7 @@ void shuttersHalt(void)
   // TODO: Implement the code for the shutters to halt
 }
 
-Shutters shutters(25.1, shuttersUp, shuttersDown, shuttersHalt);
+Shutters shutters(40, 29.5, shuttersUp, shuttersDown, shuttersHalt);
 
 void setup(void)
 {

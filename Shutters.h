@@ -29,8 +29,10 @@ private:
 
   byte eeprom_position_;
 
-  float delay_total_;
-  float delay_one_level_;
+  float delay_total_up_;
+  float delay_total_down_;
+  float delay_one_level_up_;
+  float delay_one_level_down_;
   void (*upCallback_)(void);
   void (*downCallback_)(void);
   void (*haltCallback_)(void);
@@ -45,7 +47,7 @@ private:
   byte savedCurrentLevel();
   void saveCurrentLevelAndKnown(byte level);
 public:
-  Shutters(float delay_total, void (*upCallback)(void), void (*downCallback)(void), void (*haltCallback)(void), byte eeprom_offset = 0);
+  Shutters(float delay_total_up, float delay_total_down, void (*upCallback)(void), void (*downCallback)(void), void (*haltCallback)(void), byte eeprom_offset = 0);
   bool begin();
   void loop();
   void requestLevel(byte level);
