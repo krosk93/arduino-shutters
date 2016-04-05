@@ -134,7 +134,7 @@ unsigned char Shutters::currentLevel() {
 }
 
 bool Shutters::getDirection() {
-  return this->direction_;
+  return this->_direction;
 }
 
 bool Shutters::reached() {
